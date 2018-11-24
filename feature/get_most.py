@@ -42,6 +42,7 @@ def deal(data):
     data['3_total_fee'] = data['3_total_fee'].apply(lambda x: astype(x,float))
     data['age'] = data['age'].apply(lambda x: astype(x,int))
     data['gender'] = data['gender'].apply(lambda x: astype(x,int))
+    # 扔掉的数据
     data.loc[data['age']==0,'age'] = np.nan
     data.loc[data['1_total_fee'] < 0, '1_total_fee'] = np.nan
     data.loc[data['2_total_fee'] < 0, '2_total_fee'] = np.nan
@@ -68,6 +69,7 @@ def get_magic_feature(df, outname):
     """
     It is the magic beer and niaobu, try it and enjoy!
     """
+    # 做了区间的离散化（在deal中保留6位数字
     df['fea_unum'] = df[['1_total_fee','2_total_fee','3_total_fee', '4_total_fee']].nunique(axis=1)
     df.drop_duplicates(subset =['1_total_fee','2_total_fee','3_total_fee', '4_total_fee'],inplace=True)
     df = df[df.fea_unum>2]
